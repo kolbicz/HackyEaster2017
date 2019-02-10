@@ -1,0 +1,39 @@
+<script>
+	
+function magic(mystr) {
+    var pwd = "";
+    for (var i = mystr.length - 1; i >= 0; i--) {
+        if (i > 5) {
+        		//alert(mystr.charAt(i));
+            pwd += moreMagic(mystr.charAt(i));
+        } else {
+            pwd = moreMagic(mystr.charAt(i)) + pwd;
+        }
+    }
+    return pwd;
+}
+
+function moreMagic(c) {
+		//alert(c);
+    return String.fromCharCode(c.charCodeAt(0) + 1);
+}
+//cvoozYs4ut5n
+
+
+	document.write("b");
+	document.write(String.fromCharCode('b'.charCodeAt(0)+19));
+	document.write("nn");
+	document.write("y");
+	document.write("X");
+	document.write(String.fromCharCode(109));
+	document.write("4");
+	document.write("s");
+	document.write("t");
+	document.write("3");
+	document.write(String.fromCharCode(114));
+	document.write("\n");
+	document.write(magic('bunnyXm4st3r'));
+	
+	
+</script>
+

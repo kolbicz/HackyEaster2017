@@ -1,0 +1,491 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Hacky Easter 2017</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="icon" type="image/ico" href="images/favicon.ico">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dropotron.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/ocanvas-2.8.6.min.js"></script>
+    <script type="text/javascript" src="js/crypto-js/aes.js"></script>
+    <script type="text/javascript" src="js/crypto-js/core-min.js"></script>
+    <script type="text/javascript" src="js/crypto-js/enc-base64-min.js"></script>
+
+    <script type="text/javascript">
+    	function red(x,y,i){
+    		i=i%4;
+				switch (parseInt(i)) {
+					case 0:
+						break;
+					case 3:
+	        	x-=2;
+	        	y+=1;						
+	        	break;
+	        case 1:
+	        	x+=2;
+	        	y+=1;		        
+						break;
+	        case 2:        
+	        	y+=1;	
+						break;
+    		}
+	    	if (x<0){
+	    		x+=27;
+	    	}
+	    	if (x>26){
+	    		x=x%27;
+	    	} 
+	    	if (y<0){
+	    		y+=27;
+	    	}
+	    	if (y>26){
+	    		y=y%27;
+	    	}	
+	    return [x,y];    	   		
+    	}
+    	
+    	function green(x,y,i){
+    		i=i%4;
+				switch (parseInt(i)) {
+					case 0:
+	        	break;
+	        case 3:
+	        	x-=2;
+	        	y+=1;
+						break;
+	        case 1:
+	        	x+=1;
+	        	y+=1;
+						break;
+	        case 2:
+	        	x-=2;
+	        	y+=1;
+						break;
+    		}
+	    	if (x<0){
+	    		x+=27;
+	    	}
+	    	if (x>26){
+	    		x=x%27;
+	    	} 
+	    	if (y<0){
+	    		y+=27;
+	    	}
+	    	if (y>26){
+	    		y=y%27;
+	    	}	
+	    return [x,y];    	   		
+    	}
+
+    	function blue(x,y,i){
+    		i=i%4;
+				switch (parseInt(i)) {
+					case 0:
+	        	break;
+	        case 3:
+	        	x+=2;
+	        	y-=1;
+						break;
+	        case 1:
+	        	x-=1;
+	        	y+=3;
+						break;
+	        case 2:
+	        	x+=1;
+	        	y-=1;
+						break;
+    		}
+	    	if (x<0){
+	    		x+=27;
+	    	}
+	    	if (x>26){
+	    		x=x%27;
+	    	} 
+	    	if (y<0){
+	    		y+=27;
+	    	}
+	    	if (y>26){
+	    		y=y%27;
+	    	}	
+	    return [x,y];    	   		
+    	}
+
+    	function yellow(x,y,i){
+    		i=i%4;
+				switch (parseInt(i)) {
+					case 0:
+	        	break;
+	        case 3:
+	        	x-=1;
+	        	y-=1;
+						break;
+	        case 1:
+	        	x+=2;
+	        	y-=1;
+						break;
+	        case 2:
+	        	x-=3;
+	        	y-=1;
+						break;
+    		}
+	    	if (x<0){
+	    		x+=27;
+	    	}
+	    	if (x>26){
+	    		x=x%27;
+	    	} 
+	    	if (y<0){
+	    		y+=27;
+	    	}
+	    	if (y>26){
+	    		y=y%27;
+	    	}	
+	    return [x,y];    	   		
+    	}
+    	
+    	function pink(x,y,i){
+    		i=i%4;
+				switch (parseInt(i)) {
+					case 0:
+	        	break;
+	        case 3:
+	        	x-=1;
+	        	y-=1;
+						break;
+	        case 1:
+	        	x+=3;
+						break;
+	        case 2:
+	        	x-=1;
+	        	y-=1;
+						break;
+    		}
+	    	if (x<0){
+	    		x+=27;
+	    	}
+	    	if (x>26){
+	    		x=x%27;
+	    	} 
+	    	if (y<0){
+	    		y+=27;
+	    	}
+	    	if (y>26){
+	    		y=y%27;
+	    	}	
+	    return [x,y];    	   		
+    	}
+ 
+    	function brown(x,y,i){
+    		i=i%4;
+				switch (parseInt(i)) {
+					case 0:
+	        	break;
+	        case 3:
+	        	x-=1;
+	        	y-=1;
+						break;
+	        case 1:
+	        	x+=2;
+	        	y-=1;
+						break;
+	        case 2:
+	        	x-=1;
+	        	y-=1;
+						break;
+    		}
+	    	if (x<0){
+	    		x+=27;
+	    	}
+	    	if (x>26){
+	    		x=x%27;
+	    	} 
+	    	if (y<0){
+	    		y+=27;
+	    	}
+	    	if (y>26){
+	    		y=y%27;
+	    	}	
+	    return [x,y];    	   		
+    	}
+    	
+
+      function copyTable(jumps) {
+        var source = document.getElementById('monsterTable');
+        var destination = document.getElementById('monsterTableCopy');
+        var copy = source.cloneNode(true);
+        copy.setAttribute('id', 'monsterTableCopy');
+        destination.parentNode.replaceChild(copy, destination);
+        //document.getElementById("monsterTable").style.display = "none";
+        var vtable2 = document.getElementById("monsterTableCopy");
+        var trows = vtable2.getElementsByTagName("tr");
+        var	a=0;
+        var j=0;
+        var jumps=document.getElementById('number').value;
+        var c=[0,0];
+        
+        for (var x = 0; x < 27; x++) {
+            var row = trows[x];
+            var cells = row.getElementsByTagName("td");
+            var clen = cells.length;
+            for (var y = 0; y < clen; y++) {
+                var monstersInCellArr = vtable2.rows[x].cells[y].innerHTML.split(',');
+                var monster;
+                var monstersInCellArrLength = monstersInCellArr.length;
+                for (var i = 0; i < monstersInCellArrLength; i++) {
+                    monster = monstersInCellArr.pop();
+                    if (i >= 1) {
+                        switch (parseInt(monster)) {
+                            case 1:
+                            		c=red(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=red(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_red.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 2:
+                            		c=green(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=green(c[0],c[1],j);
+																}														
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_green.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 3:
+                            		c=blue(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=blue(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_blue.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 4:
+                            		c=yellow(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=yellow(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_yellow.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 5:
+                            		c=pink(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=pink(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_pink.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 6:
+                            		c=brown(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=brown(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_brown.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                        }
+                    } else {
+                        switch (parseInt(monster)) {
+                            case 1:
+                            		c=red(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=red(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_red.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 2:
+                            		c=green(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=green(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_green.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 3:
+                            		c=blue(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=blue(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_blue.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 4:
+                            		c=yellow(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=yellow(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_yellow.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 5:
+                            		c=pink(x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=pink(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_pink.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                            case 6:
+                            		c=brown (x,y,a);
+                            		for (j = 0; j <= jumps; j++) { 
+																	c=brown(c[0],c[1],j);
+																}
+                                vtable2.rows[c[0]].cells[c[1]].innerHTML += "<img src='images/challenge/ico_brown.png'>";
+                                vtable2.rows[c[0]].cells[c[1]].style.backgroundColor  = 'black';
+                                break;
+                        }
+                    }
+                }
+
+            }
+        }
+      }
+    </script>
+    <style type="text/css">
+        #monsterTableCopy td {
+            width: 30px;
+            height: 30px;
+            border: 2px solid black;
+			background-color: white;
+        }
+        #monsterTableCopy td img {
+            width: 12px;
+        }
+        #monsterTable td {
+            width: 30px;
+            height: 30px;
+            border: 2px solid black;
+			background-color: white;
+        }
+        #monsterTable td img {
+            width: 12px;
+        }
+    </style>
+  </head>
+  <body class="no-sidebar">
+    
+    <div id="main-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="4u" id="sidebar"></div>
+          <script>addChallengeSidebar();</script>
+          
+        </div>     
+        <script>
+        	function incrementValue()
+					{
+					    var value = parseInt(document.getElementById('number').value, 10);
+					    value = isNaN(value) ? 0 : value;
+					    value++;
+					    document.getElementById('number').value = value;
+					    copyTable(value);
+					}
+        </script>
+				<form>
+				   <input type="text" id="number" value="94"/>
+				   <input type="button" onclick="incrementValue();" value="Jump!" />
+				</form>
+        <div class="row">
+          <div class="12u" id="board">
+            <article class="box post">
+              <h2>Board</h2>
+              <p>
+                <table id="monsterTableCopy" />
+                <table id="monsterTable" border=" cellspacing="0" style="border-collapse: collapse; ">
+                <tbody>
+                    <tr>
+                        <td></td><td>4</td><td></td><td></td><td></td><td></td><td>3</td><td>6</td><td></td><td></td><td>4,6</td><td>3</td><td>4</td><td></td><td></td><td>5</td><td></td><td></td><td>4</td><td></td><td>2,1</td><td></td><td></td><td>4,6,3</td><td></td><td></td><td>1</td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td>6</td><td></td><td>2</td><td></td><td></td><td></td><td></td><td>6</td><td></td><td>2</td><td></td><td>1</td><td></td><td>6</td><td></td><td>3</td><td></td><td>3</td><td>1</td><td></td><td>2</td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td>4</td><td>6</td><td>2</td><td></td><td></td><td>3</td><td></td><td></td><td></td><td></td><td>3</td><td></td><td>6,1</td><td></td><td>1</td><td></td><td></td><td></td><td>1</td><td></td><td>6</td><td>3,1</td><td>3</td><td></td><td>3</td><td>4</td>
+                    </tr>
+                    <tr>
+                        <td>6</td><td></td><td></td><td>3,5</td><td></td><td>1</td><td>1</td><td></td><td>1</td><td></td><td></td><td></td><td>6</td><td>6</td><td></td><td></td><td>5</td><td>5</td><td>3</td><td></td><td></td><td>5,6,1</td><td></td><td>2</td><td></td><td></td><td>3</td>
+                    </tr>
+                    <tr>
+                        <td>3</td><td>2</td><td>4</td><td></td><td></td><td>6</td><td>4</td><td></td><td></td><td>3</td><td></td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td>2</td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td>3,5</td><td></td><td>1</td><td>3</td><td>4</td><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td></td><td>3,6</td><td></td><td></td><td></td><td></td><td></td><td>3,6</td><td>5</td><td>6</td><td>4</td><td>4,6,2</td><td></td><td></td><td></td><td></td><td>6</td><td>4,5,6</td><td>6</td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td></td><td></td><td>6</td><td></td><td>4</td><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>2</td><td></td><td></td><td></td><td></td><td></td><td>5</td><td></td>
+                    </tr>
+                    <tr>
+                        <td>2</td><td>1</td><td>5,2</td><td>6</td><td></td><td>6</td><td></td><td></td><td>1</td><td>5</td><td>6</td><td></td><td>1</td><td></td><td>1</td><td>4,2</td><td></td><td></td><td>5,6</td><td></td><td></td><td></td><td>2</td><td></td><td>1</td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>3</td><td>1</td><td></td><td></td><td>1</td><td></td><td></td><td>6</td><td></td><td>3</td><td></td><td></td><td>5</td><td></td><td></td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>4</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td>2</td><td></td><td>4</td><td></td><td></td><td></td><td>2</td><td></td><td>3,6</td><td>4</td><td>3,4</td><td></td><td></td><td>1</td><td></td><td>1</td><td></td><td></td><td>6</td><td></td><td>2,1</td><td></td><td>6</td><td></td><td></td><td>6</td>
+                    </tr>
+                    <tr>
+                        <td>5</td><td>4</td><td></td><td>5</td><td></td><td></td><td>4</td><td>4</td><td></td><td></td><td></td><td>5</td><td></td><td>4</td><td>2</td><td></td><td></td><td>5</td><td></td><td>3,2,1</td><td></td><td>3</td><td></td><td></td><td>5</td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td>2,1</td><td>4,5</td><td></td><td></td><td></td><td></td><td>6,1</td><td>3</td><td></td><td>1</td><td></td><td></td><td></td><td>2</td><td></td><td></td><td></td><td></td><td>4</td><td></td><td>6</td><td>3</td><td>6,1</td><td>5,2</td><td>1</td>
+                    </tr>
+                    <tr>
+                        <td>2</td><td></td><td></td><td></td><td>2</td><td></td><td>5</td><td>6</td><td></td><td></td><td></td><td></td><td>6</td><td></td><td></td><td></td><td></td><td>5</td><td>5</td><td></td><td></td><td>3</td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>1</td><td>5</td><td></td><td></td><td>1</td><td></td><td>2</td><td>4</td><td></td><td></td><td>6</td><td></td><td>2</td><td>3</td><td>6,2</td><td>2</td><td></td><td>2</td><td>6</td><td></td><td></td><td></td><td></td><td></td><td>6</td><td>6,2</td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td>6</td><td></td><td>5</td><td>3</td><td>4</td><td></td><td></td><td></td><td></td><td></td><td>3</td><td></td><td>1</td><td></td><td></td><td></td><td></td><td>6</td><td>3</td><td>4</td><td></td><td></td><td></td><td></td><td>6,1</td><td>3</td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td>5</td><td></td><td></td><td></td><td>6</td><td>6</td><td></td><td></td><td></td><td></td><td></td><td>6</td><td></td><td>3</td><td></td><td></td><td>4</td><td></td><td>4,1</td><td></td><td>5</td><td></td><td>6</td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td>3,4</td><td>1</td><td></td><td></td><td>1</td><td></td><td></td><td>1</td><td>5,2,1</td><td>2</td><td>5</td><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>3</td><td></td><td>4</td>
+                    </tr>
+                    <tr>
+                        <td>4</td><td></td><td></td><td>4</td><td></td><td></td><td></td><td>5</td><td></td><td></td><td>3</td><td>3,4</td><td></td><td></td><td></td><td></td><td></td><td></td><td>4,5</td><td></td><td></td><td></td><td></td><td>4</td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td>6,1</td><td></td><td></td><td></td><td></td><td></td><td></td><td>3</td><td></td><td>5,6</td><td>5</td><td>1</td><td></td><td>6</td><td></td><td>1</td><td></td><td></td><td></td><td>5,2</td><td>1</td><td></td><td>6</td><td></td><td>1</td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>3</td><td></td><td>5</td><td>6</td><td></td><td></td><td>3,6</td><td></td><td></td><td></td><td></td><td>1</td><td>1</td><td>2</td><td></td>
+                    </tr>
+                    <tr>
+                        <td>5,6</td><td></td><td></td><td></td><td></td><td></td><td>4</td><td></td><td>6</td><td>4,6</td><td></td><td></td><td></td><td></td><td>3,2</td><td>6</td><td>5</td><td>5,2</td><td></td><td>3,1</td><td></td><td>3,1</td><td>4</td><td>2</td><td>3,2</td><td></td><td>5,2</td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>3</td><td></td><td></td><td></td><td></td><td>4</td><td></td><td></td><td>5,6</td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td>1</td><td></td><td>5</td><td></td><td></td><td>3</td><td></td><td></td><td></td><td></td><td>4</td><td></td><td></td><td></td><td>6,4</td><td>3</td><td></td><td>3,6,4</td><td></td><td></td><td></td><td>4</td><td>2</td><td>4</td><td>3,5</td><td></td>
+                    </tr>
+                    <tr>
+                        <td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>5,6</td><td>3,6,4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>5</td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>4,5</td><td></td><td></td><td></td><td>4</td><td></td><td>2,5</td><td></td><td>2</td><td></td><td></td><td>2,4</td><td></td><td>4</td><td></td><td></td><td></td><td>2,3</td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>5</td><td></td><td></td><td>2</td><td>4,1</td><td>1</td><td>2</td><td></td><td></td><td>4</td><td></td><td></td><td></td><td></td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>4</td><td></td><td></td>
+                    </tr>
+                </tbody>
+                </table>
+                <script>copyTable();</script>
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
